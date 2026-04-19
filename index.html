@@ -14,61 +14,86 @@
 }
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}
+
 header{border-bottom:1px solid var(--border);padding:0 2.5rem;position:sticky;top:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);z-index:100}
 .nav-inner{display:flex;justify-content:space-between;align-items:center;height:56px;max-width:1200px;margin:0 auto}
-.logo{font-family:var(--serif);font-size:1.05rem;letter-spacing:0.1em;font-style:italic}
+.logo{font-family:var(--serif);font-size:1.05rem;letter-spacing:0.1em;font-style:italic;cursor:pointer;user-select:none}
+.edit-badge{display:none;font-size:0.58rem;letter-spacing:0.1em;color:#fff;background:var(--mid);padding:0.2rem 0.5rem;margin-left:0.75rem;vertical-align:middle}
+body.edit-mode .edit-badge{display:inline}
 nav{display:flex;gap:2.5rem}
 nav a{font-size:0.7rem;letter-spacing:0.14em;color:var(--mid);transition:color 0.2s}
 nav a:hover{color:var(--ink)}
+
 main{max-width:1200px;margin:0 auto;padding:0 2.5rem}
 .section-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.75rem;border-bottom:1px solid var(--border);padding-bottom:0.75rem;padding-top:3rem}
 .section-title{font-size:0.68rem;letter-spacing:0.2em;color:var(--ink);font-weight:400}
 .section-en{font-size:0.65rem;color:var(--light);letter-spacing:0.08em;font-family:var(--serif);font-style:italic}
+
 .article-grid{display:grid;grid-template-columns:repeat(5,1fr);border-left:1px solid var(--border);border-top:1px solid var(--border)}
 .card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem;display:flex;flex-direction:column;transition:background 0.2s}
 .card:hover{background:var(--bg2)}
 .card-meta{display:flex;justify-content:space-between;margin-bottom:1rem}
 .card-cat,.card-date{font-size:0.62rem;letter-spacing:0.1em;color:var(--light)}
-.card-img{aspect-ratio:4/3;margin-bottom:1rem;background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border:1px dashed var(--border);transition:border-color 0.2s;flex-shrink:0}
-.card-img:hover{border-color:var(--mid)}
-.card-img:hover .img-hint{opacity:1}
+
+/* image area — pointer only in edit mode */
+.card-img{aspect-ratio:4/3;margin-bottom:1rem;background:var(--bg2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px solid transparent;transition:border-color 0.2s;flex-shrink:0}
+body.edit-mode .card-img{cursor:pointer;border:1px dashed var(--border)}
+body.edit-mode .card-img:hover{border-color:var(--mid)}
+body.edit-mode .card-img:hover .img-hint{opacity:1}
 .card-img img{width:100%;height:100%;object-fit:cover;display:none}
 .img-placeholder{font-family:var(--serif);font-size:1.6rem;color:var(--light);font-style:italic}
 .img-hint{position:absolute;bottom:0;left:0;right:0;background:rgba(17,17,16,0.65);color:#fff;font-size:0.6rem;letter-spacing:0.1em;text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s}
+
 .card h2{font-family:var(--serif);font-size:0.92rem;font-weight:400;line-height:1.55;margin-bottom:0.5rem}
 .card-desc{font-size:0.75rem;line-height:1.75;color:var(--mid)}
+
+/* chart area */
 .card-chart{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;display:none}
 .card-chart.active{display:block}
 .chart-label{font-size:0.62rem;letter-spacing:0.1em;color:var(--light);margin-bottom:0.5rem}
 .chart-wrap{position:relative;width:100%;height:130px}
-.remove-chart-btn{margin-top:0.6rem;border:none;background:none;cursor:pointer;font-size:0.62rem;color:#c0a0a0;font-family:var(--sans);letter-spacing:0.08em;padding:0}
+.remove-chart-btn{display:none;margin-top:0.6rem;border:none;background:none;cursor:pointer;font-size:0.62rem;color:#c0a0a0;font-family:var(--sans);letter-spacing:0.08em;padding:0}
 .remove-chart-btn:hover{color:#c44}
-.add-chart-btn{margin-top:auto;padding-top:0.85rem;border:none;background:none;cursor:pointer;font-size:0.62rem;letter-spacing:0.12em;color:var(--light);text-align:left;display:flex;align-items:center;gap:0.35rem;transition:color 0.2s;font-family:var(--sans)}
+body.edit-mode .remove-chart-btn{display:block}
+
+/* add chart btn — only visible in edit mode */
+.add-chart-btn{display:none;margin-top:auto;padding-top:0.85rem;border:none;background:none;cursor:pointer;font-size:0.62rem;letter-spacing:0.12em;color:var(--light);text-align:left;align-items:center;gap:0.35rem;transition:color 0.2s;font-family:var(--sans)}
 .add-chart-btn:hover{color:var(--mid)}
+body.edit-mode .add-chart-btn{display:flex}
+
+/* exit edit btn */
+.exit-edit-btn{display:none;font-size:0.62rem;letter-spacing:0.1em;color:var(--light);background:none;border:1px solid var(--border);padding:0.3rem 0.75rem;cursor:pointer;font-family:var(--sans);transition:all 0.2s;margin-left:1rem}
+.exit-edit-btn:hover{color:var(--mid);border-color:var(--mid)}
+body.edit-mode .exit-edit-btn{display:inline-block}
+
 .now-grid{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--border);border-top:1px solid var(--border)}
 .now-card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem}
 .now-label{font-size:0.62rem;letter-spacing:0.14em;color:var(--light);margin-bottom:0.5rem;display:block}
 .now-title{font-family:var(--serif);font-size:0.92rem;font-weight:400;line-height:1.4;margin-bottom:0.35rem}
 .now-sub{font-size:0.72rem;color:var(--mid)}
+
 .topics{display:flex;flex-wrap:wrap;border:1px solid var(--border);margin-bottom:3rem}
 .topic-tag{padding:0.85rem 1.5rem;font-size:0.75rem;color:var(--mid);letter-spacing:0.06em;border-right:1px solid var(--border);cursor:pointer;transition:all 0.2s}
 .topic-tag:hover{background:var(--bg2);color:var(--ink)}
 .topic-tag:last-child{border-right:none}
+
 footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
 .footer-logo{font-family:var(--serif);font-size:0.85rem;color:var(--light);font-style:italic}
 .footer-links a{font-size:0.68rem;color:var(--light);letter-spacing:0.08em;margin-left:1.5rem;transition:color 0.2s}
 .footer-links a:hover{color:var(--mid)}
+
+/* modals */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:999;align-items:center;justify-content:center}
 .overlay.open{display:flex}
 .modal{background:#fff;padding:2rem;width:440px;max-width:92vw;border:1px solid var(--border);max-height:88vh;overflow-y:auto}
 .modal h3{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:1.5rem}
 .field{margin-bottom:1.1rem}
 .field label{font-size:0.65rem;letter-spacing:0.14em;color:var(--mid);display:block;margin-bottom:0.4rem}
-.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);padding:0.55rem 0.75rem;font-size:0.8rem;font-family:var(--sans);outline:none;background:#fff;color:var(--ink);transition:border-color 0.2s}
+.field input,.field textarea{width:100%;border:1px solid var(--border);padding:0.55rem 0.75rem;font-size:0.8rem;font-family:var(--sans);outline:none;background:#fff;color:var(--ink);transition:border-color 0.2s}
 .field input:focus,.field textarea:focus{border-color:var(--mid)}
-.field textarea{resize:vertical;min-height:72px;line-height:1.6}
 .field input[type=file]{border:none;padding:0;font-size:0.75rem;color:var(--mid)}
+.field input[type=password]{letter-spacing:0.15em}
 .hint{font-size:0.63rem;color:var(--light);margin-top:0.3rem;line-height:1.5}
 .or-divider{text-align:center;font-size:0.63rem;color:var(--light);letter-spacing:0.12em;margin:0.8rem 0}
 .type-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:0.4rem}
@@ -82,6 +107,9 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 .btn-ok:hover{background:#333}
 .btn-del{color:#c44;border-color:#ecc}
 .btn-del:hover{background:#fff5f5}
+.pw-error{font-size:0.7rem;color:#c44;margin-top:0.5rem;display:none}
+.pw-error.show{display:block}
+
 @media(max-width:900px){.article-grid{grid-template-columns:repeat(2,1fr)}.now-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.article-grid{grid-template-columns:1fr}.now-grid{grid-template-columns:1fr}header,main,footer{padding-left:1.25rem;padding-right:1.25rem}}
 </style>
@@ -90,8 +118,12 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 
 <header>
   <div class="nav-inner">
-    <div style="display:flex;align-items:baseline;gap:1rem">
-      <span class="logo">sincere.</span>
+    <div style="display:flex;align-items:center">
+      <span class="logo" id="logoEl">sincere.</span>
+      <span class="edit-badge">編輯模式</span>
+      <button class="exit-edit-btn" onclick="exitEdit()">結束編輯</button>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:1rem;margin-left:auto;margin-right:2rem">
       <span style="font-size:0.62rem;letter-spacing:0.18em;color:var(--light)">觀察者的筆記</span>
     </div>
     <nav>
@@ -112,10 +144,10 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
   </div>
 
   <div class="article-grid">
-    <!-- 5 cards -->
+
     <div class="card">
       <div class="card-meta"><span class="card-cat">玄學 · 思考</span><span class="card-date">2026.04</span></div>
-      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">∞</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">∞</span><span class="img-hint">點擊更換圖片</span></div>
       <h2>玄學和科學，其實站在同一個地方</h2>
       <p class="card-desc">兩者都是人類試圖理解未知的方式。差別不在方法，在語言。</p>
       <div class="card-chart" id="ca0"><p class="chart-label" id="cl0"></p><div class="chart-wrap"><canvas id="cv0"></canvas></div><button class="remove-chart-btn" onclick="removeChart(0)">× 移除圖表</button></div>
@@ -124,7 +156,7 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">追星 · 文化</span><span class="card-date">2026.03</span></div>
-      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">♩</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">♩</span><span class="img-hint">點擊更換圖片</span></div>
       <h2>K-pop消費為什麼被污名化</h2>
       <p class="card-desc">打高爾夫一年花多少錢，沒人問。買專輯就不一樣了。</p>
       <div class="card-chart" id="ca1"><p class="chart-label" id="cl1"></p><div class="chart-wrap"><canvas id="cv1"></canvas></div><button class="remove-chart-btn" onclick="removeChart(1)">× 移除圖表</button></div>
@@ -133,7 +165,7 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">AI · 工具</span><span class="card-date">2026.04</span></div>
-      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">◇</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">◇</span><span class="img-hint">點擊更換圖片</span></div>
       <h2>我用 AI 建了這個網站的過程</h2>
       <p class="card-desc">不是教學。是一個不懂程式的人，怎麼把想法變成頁面。</p>
       <div class="card-chart" id="ca2"><p class="chart-label" id="cl2"></p><div class="chart-wrap"><canvas id="cv2"></canvas></div><button class="remove-chart-btn" onclick="removeChart(2)">× 移除圖表</button></div>
@@ -142,7 +174,7 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">城市 · 旅行</span><span class="card-date">2026.03</span></div>
-      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">○</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">○</span><span class="img-hint">點擊更換圖片</span></div>
       <h2>一個城市的高級感，是怎麼建立的</h2>
       <p class="card-desc">不是錢，是密度。是選擇放什麼、不放什麼。</p>
       <div class="card-chart" id="ca3"><p class="chart-label" id="cl3"></p><div class="chart-wrap"><canvas id="cv3"></canvas></div><button class="remove-chart-btn" onclick="removeChart(3)">× 移除圖表</button></div>
@@ -151,12 +183,13 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">商業 · 觀察</span><span class="card-date">2026.02</span></div>
-      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">△</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">△</span><span class="img-hint">點擊更換圖片</span></div>
       <h2>為什麼有些品牌不需要解釋自己</h2>
       <p class="card-desc">信任感不是設計出來的，是長期一致性的副產品。</p>
       <div class="card-chart" id="ca4"><p class="chart-label" id="cl4"></p><div class="chart-wrap"><canvas id="cv4"></canvas></div><button class="remove-chart-btn" onclick="removeChart(4)">× 移除圖表</button></div>
       <button class="add-chart-btn" id="cb4" onclick="openChart(4)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
     </div>
+
   </div>
 
   <div class="section-header"><span class="section-title">現在在研究</span><span class="section-en">Now</span></div>
@@ -180,6 +213,22 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
     <div class="footer-links"><a href="#">Threads ↗</a><a href="#">sincere.tw</a></div>
   </div>
 </footer>
+
+<!-- PASSWORD MODAL -->
+<div class="overlay" id="pwModal">
+  <div class="modal" style="width:340px">
+    <h3>進入編輯模式</h3>
+    <div class="field">
+      <label>密碼</label>
+      <input type="password" id="pwInput" placeholder="輸入密碼" onkeydown="if(event.key==='Enter')confirmPw()">
+      <p class="pw-error" id="pwError">密碼錯誤，請再試一次</p>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="closePw()">取消</button>
+      <button class="btn btn-ok" onclick="confirmPw()">確認</button>
+    </div>
+  </div>
+</div>
 
 <!-- IMAGE MODAL -->
 <div class="overlay" id="imgModal">
@@ -213,10 +262,10 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
     <div class="field">
       <label>標籤（每行一個）</label>
       <textarea id="cLabels" placeholder="高爾夫&#10;追星&#10;烘焙&#10;旅行"></textarea>
-      <p class="hint">每一行對應一個資料點的名稱</p>
+      <p class="hint">每一行對應一個資料點名稱</p>
     </div>
     <div class="field">
-      <label>數值（每行一個，對應標籤順序）</label>
+      <label>數值（每行一個）</label>
       <textarea id="cValues" placeholder="120000&#10;85000&#10;30000&#10;60000"></textarea>
       <p class="hint">輸入純數字即可</p>
     </div>
@@ -228,28 +277,77 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 </div>
 
 <script>
+// ── 密碼設定（在這裡改你的密碼）──
+const EDIT_PASSWORD = 'sincere2026';
+
+// ── Edit mode ──
 const COLORS=['#2C2C2A','#888880','#C0BFB8','#6B6B63','#1A1A18','#E2E1DA'];
+let editMode=false, logoClickCount=0, logoTimer=null;
 let activeImg=null, pendingSrc=null, activeChart=null, cType='bar', charts={};
 
-// IMAGE
-function openImg(el){activeImg=el;pendingSrc=null;document.getElementById('imgUrl').value='';document.getElementById('imgFile').value='';document.getElementById('imgModal').classList.add('open')}
+// Triple-click logo → password modal
+document.getElementById('logoEl').addEventListener('click',()=>{
+  if(editMode)return;
+  logoClickCount++;
+  clearTimeout(logoTimer);
+  logoTimer=setTimeout(()=>{logoClickCount=0},600);
+  if(logoClickCount>=3){logoClickCount=0;openPw()}
+});
+
+function openPw(){
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwError').classList.remove('show');
+  document.getElementById('pwModal').classList.add('open');
+  setTimeout(()=>document.getElementById('pwInput').focus(),100);
+}
+function closePw(){document.getElementById('pwModal').classList.remove('open')}
+function confirmPw(){
+  const val=document.getElementById('pwInput').value;
+  if(val===EDIT_PASSWORD){
+    document.getElementById('pwModal').classList.remove('open');
+    document.body.classList.add('edit-mode');
+    editMode=true;
+  } else {
+    document.getElementById('pwError').classList.add('show');
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+function exitEdit(){document.body.classList.remove('edit-mode');editMode=false}
+
+// Guard: only runs callback if in edit mode
+function editModeAction(fn){if(editMode)fn()}
+
+// ── IMAGE ──
+function openImg(el){
+  activeImg=el;pendingSrc=null;
+  document.getElementById('imgUrl').value='';
+  document.getElementById('imgFile').value='';
+  document.getElementById('imgModal').classList.add('open');
+}
 function closeImg(){document.getElementById('imgModal').classList.remove('open');activeImg=null;pendingSrc=null}
-function handleFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{pendingSrc=ev.target.result};r.readAsDataURL(f)}
+function handleFile(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=ev=>{pendingSrc=ev.target.result};r.readAsDataURL(f);
+}
 function confirmImg(){
   const url=document.getElementById('imgUrl').value.trim();
   const src=pendingSrc||url;if(!src){closeImg();return}
   const img=activeImg.querySelector('img'),ph=activeImg.querySelector('.img-placeholder');
   img.src=src;img.style.display='block';
   img.onerror=()=>{img.style.display='none';ph.style.display='block'};
-  ph.style.display='none';activeImg.style.border='1px dashed transparent';closeImg();
+  ph.style.display='none';
+  activeImg.style.border='1px dashed transparent';
+  closeImg();
 }
 function clearImg(){
   if(!activeImg)return;
   const img=activeImg.querySelector('img'),ph=activeImg.querySelector('.img-placeholder');
-  img.src='';img.style.display='none';ph.style.display='block';activeImg.style.border='1px dashed var(--border)';closeImg();
+  img.src='';img.style.display='none';ph.style.display='block';
+  activeImg.style.border='';closeImg();
 }
 
-// CHART
+// ── CHART ──
 function openChart(i){
   activeChart=i;cType='bar';
   document.querySelectorAll('.type-btn').forEach(b=>b.classList.toggle('on',b.dataset.t==='bar'));
@@ -266,18 +364,13 @@ function confirmChart(){
   const values=document.getElementById('cValues').value.trim().split('\n').map(s=>parseFloat(s)).filter(n=>!isNaN(n));
   if(!labels.length||!values.length){alert('請填入標籤和數值');return}
   if(labels.length!==values.length){alert('標籤和數值行數需相同');return}
-
   if(charts[i]){charts[i].destroy();delete charts[i]}
-
-  // reset canvas
   const wrap=document.querySelector('#ca'+i+' .chart-wrap');
   wrap.innerHTML='<canvas id="cv'+i+'"></canvas>';
-
   const isPie=cType==='pie'||cType==='doughnut';
   document.getElementById('cl'+i).textContent=title;
   document.getElementById('ca'+i).classList.add('active');
   document.getElementById('cb'+i).style.display='none';
-
   charts[i]=new Chart(document.getElementById('cv'+i),{
     type:cType,
     data:{labels,datasets:[{data:values,
@@ -294,16 +387,16 @@ function confirmChart(){
   });
   closeChart();
 }
-
 function removeChart(i){
   if(charts[i]){charts[i].destroy();delete charts[i]}
   document.getElementById('ca'+i).classList.remove('active');
   document.getElementById('cl'+i).textContent='';
   document.getElementById('cb'+i).style.display='flex';
-  const wrap=document.querySelector('#ca'+i+' .chart-wrap');
-  wrap.innerHTML='<canvas id="cv'+i+'"></canvas>';
+  document.querySelector('#ca'+i+' .chart-wrap').innerHTML='<canvas id="cv'+i+'"></canvas>';
 }
 
+// close on backdrop
+document.getElementById('pwModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePw()});
 document.getElementById('imgModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeImg()});
 document.getElementById('chartModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeChart()});
 </script>
