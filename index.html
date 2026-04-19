@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sincere.</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FFFFFF;--bg2:#F4F3EE;--ink:#111110;--mid:#888880;--light:#C0BFB8;
+  --border:#E2E1DA;--serif:'EB Garamond',Georgia,serif;--sans:'Noto Sans TC',system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+header{border-bottom:1px solid var(--border);padding:0 2.5rem;position:sticky;top:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);z-index:100}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;height:56px;max-width:1200px;margin:0 auto}
+.logo{font-family:var(--serif);font-size:1.05rem;letter-spacing:0.1em;font-style:italic}
+nav{display:flex;gap:2.5rem}
+nav a{font-size:0.7rem;letter-spacing:0.14em;color:var(--mid);transition:color 0.2s}
+nav a:hover{color:var(--ink)}
+main{max-width:1200px;margin:0 auto;padding:0 2.5rem}
+.section-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.75rem;border-bottom:1px solid var(--border);padding-bottom:0.75rem;padding-top:3rem}
+.section-title{font-size:0.68rem;letter-spacing:0.2em;color:var(--ink);font-weight:400}
+.section-en{font-size:0.65rem;color:var(--light);letter-spacing:0.08em;font-family:var(--serif);font-style:italic}
+.article-grid{display:grid;grid-template-columns:repeat(5,1fr);border-left:1px solid var(--border);border-top:1px solid var(--border)}
+.card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem;display:flex;flex-direction:column;transition:background 0.2s}
+.card:hover{background:var(--bg2)}
+.card-meta{display:flex;justify-content:space-between;margin-bottom:1rem}
+.card-cat,.card-date{font-size:0.62rem;letter-spacing:0.1em;color:var(--light)}
+.card-img{aspect-ratio:4/3;margin-bottom:1rem;background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border:1px dashed var(--border);transition:border-color 0.2s;flex-shrink:0}
+.card-img:hover{border-color:var(--mid)}
+.card-img:hover .img-hint{opacity:1}
+.card-img img{width:100%;height:100%;object-fit:cover;display:none}
+.img-placeholder{font-family:var(--serif);font-size:1.6rem;color:var(--light);font-style:italic}
+.img-hint{position:absolute;bottom:0;left:0;right:0;background:rgba(17,17,16,0.65);color:#fff;font-size:0.6rem;letter-spacing:0.1em;text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s}
+.card h2{font-family:var(--serif);font-size:0.92rem;font-weight:400;line-height:1.55;margin-bottom:0.5rem}
+.card-desc{font-size:0.75rem;line-height:1.75;color:var(--mid)}
+.card-chart{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;display:none}
+.card-chart.active{display:block}
+.chart-label{font-size:0.62rem;letter-spacing:0.1em;color:var(--light);margin-bottom:0.5rem}
+.chart-wrap{position:relative;width:100%;height:130px}
+.remove-chart-btn{margin-top:0.6rem;border:none;background:none;cursor:pointer;font-size:0.62rem;color:#c0a0a0;font-family:var(--sans);letter-spacing:0.08em;padding:0}
+.remove-chart-btn:hover{color:#c44}
+.add-chart-btn{margin-top:auto;padding-top:0.85rem;border:none;background:none;cursor:pointer;font-size:0.62rem;letter-spacing:0.12em;color:var(--light);text-align:left;display:flex;align-items:center;gap:0.35rem;transition:color 0.2s;font-family:var(--sans)}
+.add-chart-btn:hover{color:var(--mid)}
+.now-grid{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--border);border-top:1px solid var(--border)}
+.now-card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem}
+.now-label{font-size:0.62rem;letter-spacing:0.14em;color:var(--light);margin-bottom:0.5rem;display:block}
+.now-title{font-family:var(--serif);font-size:0.92rem;font-weight:400;line-height:1.4;margin-bottom:0.35rem}
+.now-sub{font-size:0.72rem;color:var(--mid)}
+.topics{display:flex;flex-wrap:wrap;border:1px solid var(--border);margin-bottom:3rem}
+.topic-tag{padding:0.85rem 1.5rem;font-size:0.75rem;color:var(--mid);letter-spacing:0.06em;border-right:1px solid var(--border);cursor:pointer;transition:all 0.2s}
+.topic-tag:hover{background:var(--bg2);color:var(--ink)}
+.topic-tag:last-child{border-right:none}
+footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:var(--serif);font-size:0.85rem;color:var(--light);font-style:italic}
+.footer-links a{font-size:0.68rem;color:var(--light);letter-spacing:0.08em;margin-left:1.5rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--mid)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:999;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;padding:2rem;width:440px;max-width:92vw;border:1px solid var(--border);max-height:88vh;overflow-y:auto}
+.modal h3{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:1.5rem}
+.field{margin-bottom:1.1rem}
+.field label{font-size:0.65rem;letter-spacing:0.14em;color:var(--mid);display:block;margin-bottom:0.4rem}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);padding:0.55rem 0.75rem;font-size:0.8rem;font-family:var(--sans);outline:none;background:#fff;color:var(--ink);transition:border-color 0.2s}
+.field input:focus,.field textarea:focus{border-color:var(--mid)}
+.field textarea{resize:vertical;min-height:72px;line-height:1.6}
+.field input[type=file]{border:none;padding:0;font-size:0.75rem;color:var(--mid)}
+.hint{font-size:0.63rem;color:var(--light);margin-top:0.3rem;line-height:1.5}
+.or-divider{text-align:center;font-size:0.63rem;color:var(--light);letter-spacing:0.12em;margin:0.8rem 0}
+.type-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:0.4rem}
+.type-btn{padding:0.5rem 0;border:1px solid var(--border);background:none;cursor:pointer;font-size:0.68rem;font-family:var(--sans);color:var(--mid);transition:all 0.2s}
+.type-btn:hover{border-color:var(--mid);color:var(--ink)}
+.type-btn.on{border-color:var(--ink);color:var(--ink);background:var(--bg2)}
+.actions{display:flex;gap:0.6rem;margin-top:1.5rem}
+.btn{flex:1;padding:0.6rem;font-size:0.7rem;letter-spacing:0.1em;cursor:pointer;border:1px solid var(--border);background:none;font-family:var(--sans);transition:all 0.2s}
+.btn:hover{background:var(--bg2)}
+.btn-ok{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-ok:hover{background:#333}
+.btn-del{color:#c44;border-color:#ecc}
+.btn-del:hover{background:#fff5f5}
+@media(max-width:900px){.article-grid{grid-template-columns:repeat(2,1fr)}.now-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.article-grid{grid-template-columns:1fr}.now-grid{grid-template-columns:1fr}header,main,footer{padding-left:1.25rem;padding-right:1.25rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div style="display:flex;align-items:baseline;gap:1rem">
+      <span class="logo">sincere.</span>
+      <span style="font-size:0.62rem;letter-spacing:0.18em;color:var(--light)">觀察者的筆記</span>
+    </div>
+    <nav>
+      <a href="#">文章</a><a href="#">現在</a><a href="#">作品</a><a href="#" target="_blank">Threads ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div style="padding:2rem 0 0;display:flex;justify-content:space-between">
+    <p style="font-size:0.65rem;letter-spacing:0.18em;color:var(--light)">觀察者的筆記</p>
+    <p style="font-size:0.65rem;color:var(--light);font-family:var(--serif);font-style:italic">sincere.tw</p>
+  </div>
+
+  <div class="section-header">
+    <span class="section-title">最新文章</span>
+    <span class="section-en">Latest</span>
+  </div>
+
+  <div class="article-grid">
+    <!-- 5 cards -->
+    <div class="card">
+      <div class="card-meta"><span class="card-cat">玄學 · 思考</span><span class="card-date">2026.04</span></div>
+      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">∞</span><span class="img-hint">點擊更換圖片</span></div>
+      <h2>玄學和科學，其實站在同一個地方</h2>
+      <p class="card-desc">兩者都是人類試圖理解未知的方式。差別不在方法，在語言。</p>
+      <div class="card-chart" id="ca0"><p class="chart-label" id="cl0"></p><div class="chart-wrap"><canvas id="cv0"></canvas></div><button class="remove-chart-btn" onclick="removeChart(0)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb0" onclick="openChart(0)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+    </div>
+
+    <div class="card">
+      <div class="card-meta"><span class="card-cat">追星 · 文化</span><span class="card-date">2026.03</span></div>
+      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">♩</span><span class="img-hint">點擊更換圖片</span></div>
+      <h2>K-pop消費為什麼被污名化</h2>
+      <p class="card-desc">打高爾夫一年花多少錢，沒人問。買專輯就不一樣了。</p>
+      <div class="card-chart" id="ca1"><p class="chart-label" id="cl1"></p><div class="chart-wrap"><canvas id="cv1"></canvas></div><button class="remove-chart-btn" onclick="removeChart(1)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb1" onclick="openChart(1)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+    </div>
+
+    <div class="card">
+      <div class="card-meta"><span class="card-cat">AI · 工具</span><span class="card-date">2026.04</span></div>
+      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">◇</span><span class="img-hint">點擊更換圖片</span></div>
+      <h2>我用 AI 建了這個網站的過程</h2>
+      <p class="card-desc">不是教學。是一個不懂程式的人，怎麼把想法變成頁面。</p>
+      <div class="card-chart" id="ca2"><p class="chart-label" id="cl2"></p><div class="chart-wrap"><canvas id="cv2"></canvas></div><button class="remove-chart-btn" onclick="removeChart(2)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb2" onclick="openChart(2)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+    </div>
+
+    <div class="card">
+      <div class="card-meta"><span class="card-cat">城市 · 旅行</span><span class="card-date">2026.03</span></div>
+      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">○</span><span class="img-hint">點擊更換圖片</span></div>
+      <h2>一個城市的高級感，是怎麼建立的</h2>
+      <p class="card-desc">不是錢，是密度。是選擇放什麼、不放什麼。</p>
+      <div class="card-chart" id="ca3"><p class="chart-label" id="cl3"></p><div class="chart-wrap"><canvas id="cv3"></canvas></div><button class="remove-chart-btn" onclick="removeChart(3)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb3" onclick="openChart(3)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+    </div>
+
+    <div class="card">
+      <div class="card-meta"><span class="card-cat">商業 · 觀察</span><span class="card-date">2026.02</span></div>
+      <div class="card-img" onclick="openImg(this)"><img src="" alt=""><span class="img-placeholder">△</span><span class="img-hint">點擊更換圖片</span></div>
+      <h2>為什麼有些品牌不需要解釋自己</h2>
+      <p class="card-desc">信任感不是設計出來的，是長期一致性的副產品。</p>
+      <div class="card-chart" id="ca4"><p class="chart-label" id="cl4"></p><div class="chart-wrap"><canvas id="cv4"></canvas></div><button class="remove-chart-btn" onclick="removeChart(4)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb4" onclick="openChart(4)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+    </div>
+  </div>
+
+  <div class="section-header"><span class="section-title">現在在研究</span><span class="section-en">Now</span></div>
+  <div class="now-grid">
+    <div class="now-card"><span class="now-label">四柱命理</span><p class="now-title">節氣四柱理論</p><p class="now-sub">PIE 自研體系</p></div>
+    <div class="now-card"><span class="now-label">AI 應用</span><p class="now-title">AI 應用規劃師</p><p class="now-sub">2026.05 考試</p></div>
+    <div class="now-card"><span class="now-label">音樂</span><p class="now-title">Super Junior</p><p class="now-sub">2026 活動追蹤中</p></div>
+    <div class="now-card"><span class="now-label">創作</span><p class="now-title">AI Roleplay</p><p class="now-sub">角色創作 · PixAI</p></div>
+  </div>
+
+  <div class="section-header"><span class="section-title">所有主題</span><span class="section-en">Topics</span></div>
+  <div class="topics">
+    <span class="topic-tag">玄學 · 哲學</span><span class="topic-tag">AI · 工具</span><span class="topic-tag">追星 · 文化</span>
+    <span class="topic-tag">城市 · 旅行</span><span class="topic-tag">生活美學</span><span class="topic-tag">商業 · 觀察</span>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">sincere.</span>
+    <div class="footer-links"><a href="#">Threads ↗</a><a href="#">sincere.tw</a></div>
+  </div>
+</footer>
+
+<!-- IMAGE MODAL -->
+<div class="overlay" id="imgModal">
+  <div class="modal">
+    <h3>更換圖片</h3>
+    <div class="field"><label>上傳照片</label><input type="file" accept="image/*" id="imgFile" onchange="handleFile(event)"></div>
+    <div class="or-divider">— 或 —</div>
+    <div class="field"><label>圖片網址</label><input type="text" id="imgUrl" placeholder="https://..."></div>
+    <div class="actions">
+      <button class="btn btn-del" onclick="clearImg()">移除圖片</button>
+      <button class="btn" onclick="closeImg()">取消</button>
+      <button class="btn btn-ok" onclick="confirmImg()">確認</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHART MODAL -->
+<div class="overlay" id="chartModal">
+  <div class="modal">
+    <h3>新增圖表</h3>
+    <div class="field">
+      <label>圖表類型</label>
+      <div class="type-row">
+        <button class="type-btn on" data-t="bar" onclick="pickType(this)">長條圖</button>
+        <button class="type-btn" data-t="line" onclick="pickType(this)">折線圖</button>
+        <button class="type-btn" data-t="pie" onclick="pickType(this)">圓餅圖</button>
+        <button class="type-btn" data-t="doughnut" onclick="pickType(this)">環圈圖</button>
+      </div>
+    </div>
+    <div class="field"><label>圖表標題（選填）</label><input type="text" id="cTitle" placeholder="例：各興趣年消費比較"></div>
+    <div class="field">
+      <label>標籤（每行一個）</label>
+      <textarea id="cLabels" placeholder="高爾夫&#10;追星&#10;烘焙&#10;旅行"></textarea>
+      <p class="hint">每一行對應一個資料點的名稱</p>
+    </div>
+    <div class="field">
+      <label>數值（每行一個，對應標籤順序）</label>
+      <textarea id="cValues" placeholder="120000&#10;85000&#10;30000&#10;60000"></textarea>
+      <p class="hint">輸入純數字即可</p>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="closeChart()">取消</button>
+      <button class="btn btn-ok" onclick="confirmChart()">新增圖表</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const COLORS=['#2C2C2A','#888880','#C0BFB8','#6B6B63','#1A1A18','#E2E1DA'];
+let activeImg=null, pendingSrc=null, activeChart=null, cType='bar', charts={};
+
+// IMAGE
+function openImg(el){activeImg=el;pendingSrc=null;document.getElementById('imgUrl').value='';document.getElementById('imgFile').value='';document.getElementById('imgModal').classList.add('open')}
+function closeImg(){document.getElementById('imgModal').classList.remove('open');activeImg=null;pendingSrc=null}
+function handleFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{pendingSrc=ev.target.result};r.readAsDataURL(f)}
+function confirmImg(){
+  const url=document.getElementById('imgUrl').value.trim();
+  const src=pendingSrc||url;if(!src){closeImg();return}
+  const img=activeImg.querySelector('img'),ph=activeImg.querySelector('.img-placeholder');
+  img.src=src;img.style.display='block';
+  img.onerror=()=>{img.style.display='none';ph.style.display='block'};
+  ph.style.display='none';activeImg.style.border='1px dashed transparent';closeImg();
+}
+function clearImg(){
+  if(!activeImg)return;
+  const img=activeImg.querySelector('img'),ph=activeImg.querySelector('.img-placeholder');
+  img.src='';img.style.display='none';ph.style.display='block';activeImg.style.border='1px dashed var(--border)';closeImg();
+}
+
+// CHART
+function openChart(i){
+  activeChart=i;cType='bar';
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.toggle('on',b.dataset.t==='bar'));
+  ['cTitle','cLabels','cValues'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('chartModal').classList.add('open');
+}
+function closeChart(){document.getElementById('chartModal').classList.remove('open');activeChart=null}
+function pickType(btn){document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');cType=btn.dataset.t}
+
+function confirmChart(){
+  const i=activeChart;
+  const title=document.getElementById('cTitle').value.trim();
+  const labels=document.getElementById('cLabels').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);
+  const values=document.getElementById('cValues').value.trim().split('\n').map(s=>parseFloat(s)).filter(n=>!isNaN(n));
+  if(!labels.length||!values.length){alert('請填入標籤和數值');return}
+  if(labels.length!==values.length){alert('標籤和數值行數需相同');return}
+
+  if(charts[i]){charts[i].destroy();delete charts[i]}
+
+  // reset canvas
+  const wrap=document.querySelector('#ca'+i+' .chart-wrap');
+  wrap.innerHTML='<canvas id="cv'+i+'"></canvas>';
+
+  const isPie=cType==='pie'||cType==='doughnut';
+  document.getElementById('cl'+i).textContent=title;
+  document.getElementById('ca'+i).classList.add('active');
+  document.getElementById('cb'+i).style.display='none';
+
+  charts[i]=new Chart(document.getElementById('cv'+i),{
+    type:cType,
+    data:{labels,datasets:[{data:values,
+      backgroundColor:isPie?COLORS.slice(0,labels.length):COLORS[0],
+      borderColor:isPie?'#fff':COLORS[0],borderWidth:isPie?2:1,
+      borderRadius:cType==='bar'?2:0}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:isPie,position:'bottom',labels:{font:{size:9},padding:6,boxWidth:8}},
+        tooltip:{callbacks:{label:c=>' '+Number(c.raw).toLocaleString()}}},
+      scales:isPie?{}:{
+        x:{grid:{display:false},ticks:{font:{size:8},color:'#C0BFB8'}},
+        y:{grid:{color:'#F4F3EE'},ticks:{font:{size:8},color:'#C0BFB8'}}
+      }}
+  });
+  closeChart();
+}
+
+function removeChart(i){
+  if(charts[i]){charts[i].destroy();delete charts[i]}
+  document.getElementById('ca'+i).classList.remove('active');
+  document.getElementById('cl'+i).textContent='';
+  document.getElementById('cb'+i).style.display='flex';
+  const wrap=document.querySelector('#ca'+i+' .chart-wrap');
+  wrap.innerHTML='<canvas id="cv'+i+'"></canvas>';
+}
+
+document.getElementById('imgModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeImg()});
+document.getElementById('chartModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeChart()});
+</script>
+</body>
+</html>
