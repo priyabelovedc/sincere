@@ -9,219 +9,379 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FFFFFF;--bg2:#F4F3EE;--ink:#111110;--mid:#888880;--light:#C0BFB8;
-  --border:#E2E1DA;--serif:'EB Garamond',Georgia,serif;--sans:'Noto Sans TC',system-ui,sans-serif;
+  --bg:#F5F5F3;
+  --surface:#FFFFFF;
+  --ink:#0D0D0C;
+  --steel:#3A3D42;
+  --silver:#7A8088;
+  --mist:#B2B8BF;
+  --frost:#DDE0E4;
+  --border:#D4D8DC;
+  --card-bg:#F0F1F2;
+  --gold:#B8963E;
+  --gold-light:#E8D5A0;
+  --serif:'EB Garamond',Georgia,serif;
+  --sans:'Noto Sans TC',system-ui,sans-serif;
 }
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+*{-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300}
 a{text-decoration:none;color:inherit}
 
-header{border-bottom:1px solid var(--border);padding:0 2.5rem;position:sticky;top:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);z-index:100}
-.nav-inner{display:flex;justify-content:space-between;align-items:center;height:56px;max-width:1200px;margin:0 auto}
-.logo{font-family:var(--serif);font-size:1.05rem;letter-spacing:0.1em;font-style:italic;cursor:pointer;user-select:none}
-.edit-badge{display:none;font-size:0.58rem;letter-spacing:0.1em;color:#fff;background:var(--mid);padding:0.2rem 0.5rem;margin-left:0.75rem;vertical-align:middle}
+/* ── NAV ── */
+header{border-bottom:1px solid var(--border);padding:0 2.5rem;position:sticky;top:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);z-index:100}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;height:54px;max-width:1200px;margin:0 auto}
+.logo-group{display:flex;align-items:center;gap:0.6rem;cursor:pointer;user-select:none}
+.logo{font-family:var(--serif);font-size:1rem;letter-spacing:0.12em;font-style:italic;color:var(--ink)}
+.nav-tagline{font-size:0.58rem;letter-spacing:0.2em;color:var(--mist);border-left:1px solid var(--border);padding-left:1rem;margin-left:0.4rem}
+.edit-badge{display:none;font-size:0.55rem;letter-spacing:0.12em;color:var(--surface);background:var(--gold);padding:0.2rem 0.5rem;margin-left:0.75rem}
 body.edit-mode .edit-badge{display:inline}
-nav{display:flex;gap:2.5rem}
-nav a{font-size:0.7rem;letter-spacing:0.14em;color:var(--mid);transition:color 0.2s}
+.exit-btn{display:none;font-size:0.6rem;letter-spacing:0.1em;color:var(--mist);background:none;border:0.5px solid var(--border);padding:0.28rem 0.7rem;cursor:pointer;font-family:var(--sans);margin-left:0.75rem;transition:all 0.2s}
+.exit-btn:hover{color:var(--silver);border-color:var(--silver)}
+body.edit-mode .exit-btn{display:inline-block}
+nav{display:flex;gap:2rem;align-items:center}
+nav a{font-size:0.68rem;letter-spacing:0.14em;color:var(--silver);transition:color 0.2s}
 nav a:hover{color:var(--ink)}
+.nav-cta{font-size:0.68rem;letter-spacing:0.12em;color:var(--gold);border:0.5px solid var(--gold-light);padding:0.3rem 0.8rem;transition:all 0.2s}
+.nav-cta:hover{background:var(--gold);color:var(--surface)}
 
+/* ── MAIN ── */
 main{max-width:1200px;margin:0 auto;padding:0 2.5rem}
-.section-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.75rem;border-bottom:1px solid var(--border);padding-bottom:0.75rem;padding-top:3rem}
-.section-title{font-size:0.68rem;letter-spacing:0.2em;color:var(--ink);font-weight:400}
-.section-en{font-size:0.65rem;color:var(--light);letter-spacing:0.08em;font-family:var(--serif);font-style:italic}
 
-.article-grid{display:grid;grid-template-columns:repeat(5,1fr);border-left:1px solid var(--border);border-top:1px solid var(--border)}
-.card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem;display:flex;flex-direction:column;transition:background 0.2s}
-.card:hover{background:var(--bg2)}
-.card-meta{display:flex;justify-content:space-between;margin-bottom:1rem}
-.card-cat,.card-date{font-size:0.62rem;letter-spacing:0.1em;color:var(--light)}
+/* page meta */
+.page-meta{padding:2rem 0 0;display:flex;justify-content:space-between;align-items:center}
+.meta-line{display:flex;align-items:center;gap:0.75rem}
+.meta-dash{width:20px;height:1px;background:var(--gold)}
+.meta-label{font-size:0.58rem;letter-spacing:0.22em;color:var(--mist)}
+.meta-url{font-size:0.58rem;letter-spacing:0.1em;color:var(--mist);font-family:var(--serif);font-style:italic}
 
-/* image area — pointer only in edit mode */
-.card-img{aspect-ratio:4/3;margin-bottom:1rem;background:var(--bg2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px solid transparent;transition:border-color 0.2s;flex-shrink:0}
-body.edit-mode .card-img{cursor:pointer;border:1px dashed var(--border)}
-body.edit-mode .card-img:hover{border-color:var(--mid)}
+/* section headers */
+.sec-header{display:flex;justify-content:space-between;align-items:center;padding:2.5rem 0 1.5rem;border-bottom:0.5px solid var(--border)}
+.sec-left{display:flex;align-items:center;gap:0.75rem}
+.sec-title{font-size:0.65rem;letter-spacing:0.22em;color:var(--ink);font-weight:400}
+.sec-en{font-size:0.6rem;color:var(--mist);font-family:var(--serif);font-style:italic}
+
+/* ── ARTICLE GRID ── */
+.article-grid{display:grid;grid-template-columns:repeat(5,1fr);border-left:0.5px solid var(--border);border-top:0.5px solid var(--border)}
+.card{border-right:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:1.25rem;display:flex;flex-direction:column;transition:background 0.2s;background:var(--surface)}
+.card:hover{background:#FAFAFA}
+.card.accent{border-left:2px solid var(--gold)}
+.card-meta{display:flex;justify-content:space-between;margin-bottom:0.9rem}
+.card-cat{font-size:0.58rem;letter-spacing:0.14em;color:var(--silver)}
+.card.accent .card-cat{color:var(--gold)}
+.card-date{font-size:0.58rem;color:var(--mist)}
+
+/* card image */
+.card-img{aspect-ratio:4/3;margin-bottom:1rem;background:var(--card-bg);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:0.5px solid transparent;transition:border-color 0.2s;flex-shrink:0}
+body.edit-mode .card-img{cursor:pointer;border:0.5px solid var(--border)}
+body.edit-mode .card-img:hover{border-color:var(--gold)}
 body.edit-mode .card-img:hover .img-hint{opacity:1}
 .card-img img{width:100%;height:100%;object-fit:cover;display:none}
-.img-placeholder{font-family:var(--serif);font-size:1.6rem;color:var(--light);font-style:italic}
-.img-hint{position:absolute;bottom:0;left:0;right:0;background:rgba(17,17,16,0.65);color:#fff;font-size:0.6rem;letter-spacing:0.1em;text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s}
+.img-hint{position:absolute;bottom:0;left:0;right:0;background:rgba(13,13,12,0.65);color:#fff;font-size:0.58rem;letter-spacing:0.12em;text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s}
 
-.card h2{font-family:var(--serif);font-size:0.92rem;font-weight:400;line-height:1.55;margin-bottom:0.5rem}
-.card-desc{font-size:0.75rem;line-height:1.75;color:var(--mid)}
+.card h2{font-family:var(--serif);font-size:0.9rem;font-weight:400;line-height:1.55;margin-bottom:0.45rem;color:var(--ink)}
+.card-desc{font-size:0.72rem;line-height:1.75;color:var(--silver)}
 
-/* chart area */
-.card-chart{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;display:none}
+/* chart */
+.card-chart{margin-top:1rem;border-top:0.5px solid var(--border);padding-top:1rem;display:none}
 .card-chart.active{display:block}
-.chart-label{font-size:0.62rem;letter-spacing:0.1em;color:var(--light);margin-bottom:0.5rem}
+.chart-label{font-size:0.58rem;letter-spacing:0.1em;color:var(--mist);margin-bottom:0.5rem}
 .chart-wrap{position:relative;width:100%;height:130px}
-.remove-chart-btn{display:none;margin-top:0.6rem;border:none;background:none;cursor:pointer;font-size:0.62rem;color:#c0a0a0;font-family:var(--sans);letter-spacing:0.08em;padding:0}
-.remove-chart-btn:hover{color:#c44}
-body.edit-mode .remove-chart-btn{display:block}
+.rm-chart-btn{display:none;margin-top:0.55rem;border:none;background:none;cursor:pointer;font-size:0.6rem;color:#b09090;font-family:var(--sans);letter-spacing:0.08em;padding:0;transition:color 0.2s}
+.rm-chart-btn:hover{color:#c44}
+body.edit-mode .rm-chart-btn{display:block}
 
-/* add chart btn — only visible in edit mode */
-.add-chart-btn{display:none;margin-top:auto;padding-top:0.85rem;border:none;background:none;cursor:pointer;font-size:0.62rem;letter-spacing:0.12em;color:var(--light);text-align:left;align-items:center;gap:0.35rem;transition:color 0.2s;font-family:var(--sans)}
-.add-chart-btn:hover{color:var(--mid)}
+/* add chart btn */
+.add-chart-btn{display:none;margin-top:auto;padding-top:0.85rem;border:none;background:none;cursor:pointer;font-size:0.6rem;letter-spacing:0.12em;color:var(--mist);text-align:left;align-items:center;gap:0.35rem;transition:color 0.2s;font-family:var(--sans)}
+.add-chart-btn:hover{color:var(--gold)}
 body.edit-mode .add-chart-btn{display:flex}
 
-/* exit edit btn */
-.exit-edit-btn{display:none;font-size:0.62rem;letter-spacing:0.1em;color:var(--light);background:none;border:1px solid var(--border);padding:0.3rem 0.75rem;cursor:pointer;font-family:var(--sans);transition:all 0.2s;margin-left:1rem}
-.exit-edit-btn:hover{color:var(--mid);border-color:var(--mid)}
-body.edit-mode .exit-edit-btn{display:inline-block}
+/* ── NOW GRID ── */
+.now-grid{display:grid;grid-template-columns:repeat(4,1fr);border-left:0.5px solid var(--border);border-top:0.5px solid var(--border)}
+.now-card{border-right:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:1.1rem 1.25rem;background:var(--surface)}
+.now-dot{width:4px;height:4px;flex-shrink:0}
+.now-dot.gold{background:var(--gold)}
+.now-dot.steel{background:var(--steel)}
+.now-meta{display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem}
+.now-label{font-size:0.58rem;letter-spacing:0.14em;color:var(--mist)}
+.now-title{font-family:var(--serif);font-size:0.9rem;font-weight:400;color:var(--ink);line-height:1.4;margin-bottom:0.25rem}
+.now-sub{font-size:0.68rem;color:var(--silver)}
 
-.now-grid{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--border);border-top:1px solid var(--border)}
-.now-card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem}
-.now-label{font-size:0.62rem;letter-spacing:0.14em;color:var(--light);margin-bottom:0.5rem;display:block}
-.now-title{font-family:var(--serif);font-size:0.92rem;font-weight:400;line-height:1.4;margin-bottom:0.35rem}
-.now-sub{font-size:0.72rem;color:var(--mid)}
-
-.topics{display:flex;flex-wrap:wrap;border:1px solid var(--border);margin-bottom:3rem}
-.topic-tag{padding:0.85rem 1.5rem;font-size:0.75rem;color:var(--mid);letter-spacing:0.06em;border-right:1px solid var(--border);cursor:pointer;transition:all 0.2s}
-.topic-tag:hover{background:var(--bg2);color:var(--ink)}
+/* ── TOPICS ── */
+.topics{display:flex;flex-wrap:wrap;border:0.5px solid var(--border);margin-bottom:3rem}
+.topic-tag{padding:0.8rem 1.4rem;font-size:0.72rem;color:var(--silver);letter-spacing:0.06em;border-right:0.5px solid var(--border);cursor:pointer;transition:all 0.2s;background:var(--surface)}
+.topic-tag:hover{background:var(--bg);color:var(--ink)}
+.topic-tag.gold{color:var(--gold)}
 .topic-tag:last-child{border-right:none}
 
-footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
+/* ── FOOTER ── */
+footer{border-top:0.5px solid var(--border);padding:1.1rem 2.5rem;background:var(--surface)}
 .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-.footer-logo{font-family:var(--serif);font-size:0.85rem;color:var(--light);font-style:italic}
-.footer-links a{font-size:0.68rem;color:var(--light);letter-spacing:0.08em;margin-left:1.5rem;transition:color 0.2s}
-.footer-links a:hover{color:var(--mid)}
+.footer-logo{display:flex;align-items:center;gap:0.55rem}
+.footer-name{font-family:var(--serif);font-size:0.82rem;color:var(--mist);font-style:italic}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:0.6rem;color:var(--mist);letter-spacing:0.1em;transition:color 0.2s}
+.footer-links a:hover{color:var(--silver)}
 
-/* modals */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:999;align-items:center;justify-content:center}
+/* ── MODALS ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(13,13,12,0.5);z-index:999;align-items:center;justify-content:center}
 .overlay.open{display:flex}
-.modal{background:#fff;padding:2rem;width:440px;max-width:92vw;border:1px solid var(--border);max-height:88vh;overflow-y:auto}
-.modal h3{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:1.5rem}
+.modal{background:var(--surface);padding:2rem;width:440px;max-width:92vw;border:0.5px solid var(--border);max-height:88vh;overflow-y:auto}
+.modal h3{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:1.5rem;color:var(--ink);letter-spacing:0.04em}
 .field{margin-bottom:1.1rem}
-.field label{font-size:0.65rem;letter-spacing:0.14em;color:var(--mid);display:block;margin-bottom:0.4rem}
-.field input,.field textarea{width:100%;border:1px solid var(--border);padding:0.55rem 0.75rem;font-size:0.8rem;font-family:var(--sans);outline:none;background:#fff;color:var(--ink);transition:border-color 0.2s}
-.field input:focus,.field textarea:focus{border-color:var(--mid)}
-.field input[type=file]{border:none;padding:0;font-size:0.75rem;color:var(--mid)}
-.field input[type=password]{letter-spacing:0.15em}
-.hint{font-size:0.63rem;color:var(--light);margin-top:0.3rem;line-height:1.5}
-.or-divider{text-align:center;font-size:0.63rem;color:var(--light);letter-spacing:0.12em;margin:0.8rem 0}
+.field label{font-size:0.62rem;letter-spacing:0.16em;color:var(--silver);display:block;margin-bottom:0.4rem}
+.field input,.field textarea{width:100%;border:0.5px solid var(--border);padding:0.55rem 0.75rem;font-size:0.8rem;font-family:var(--sans);outline:none;background:var(--surface);color:var(--ink);transition:border-color 0.2s}
+.field input:focus,.field textarea:focus{border-color:var(--gold)}
+.field input[type=file]{border:none;padding:0;font-size:0.72rem;color:var(--silver)}
+.field input[type=password]{letter-spacing:0.18em}
+.hint{font-size:0.62rem;color:var(--mist);margin-top:0.3rem;line-height:1.5}
+.or-div{text-align:center;font-size:0.6rem;color:var(--mist);letter-spacing:0.14em;margin:0.8rem 0}
 .type-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:0.4rem}
-.type-btn{padding:0.5rem 0;border:1px solid var(--border);background:none;cursor:pointer;font-size:0.68rem;font-family:var(--sans);color:var(--mid);transition:all 0.2s}
-.type-btn:hover{border-color:var(--mid);color:var(--ink)}
-.type-btn.on{border-color:var(--ink);color:var(--ink);background:var(--bg2)}
+.type-btn{padding:0.5rem 0;border:0.5px solid var(--border);background:none;cursor:pointer;font-size:0.65rem;font-family:var(--sans);color:var(--silver);transition:all 0.2s}
+.type-btn:hover{border-color:var(--silver);color:var(--ink)}
+.type-btn.on{border-color:var(--gold);color:var(--gold);background:#FBF7EE}
 .actions{display:flex;gap:0.6rem;margin-top:1.5rem}
-.btn{flex:1;padding:0.6rem;font-size:0.7rem;letter-spacing:0.1em;cursor:pointer;border:1px solid var(--border);background:none;font-family:var(--sans);transition:all 0.2s}
-.btn:hover{background:var(--bg2)}
-.btn-ok{background:var(--ink);color:#fff;border-color:var(--ink)}
-.btn-ok:hover{background:#333}
-.btn-del{color:#c44;border-color:#ecc}
+.btn{flex:1;padding:0.6rem;font-size:0.68rem;letter-spacing:0.1em;cursor:pointer;border:0.5px solid var(--border);background:none;font-family:var(--sans);transition:all 0.2s;color:var(--ink)}
+.btn:hover{background:var(--bg)}
+.btn-ok{background:var(--steel);color:#fff;border-color:var(--steel)}
+.btn-ok:hover{background:var(--ink)}
+.btn-del{color:#b07070;border-color:#dcc8c8}
 .btn-del:hover{background:#fff5f5}
-.pw-error{font-size:0.7rem;color:#c44;margin-top:0.5rem;display:none}
-.pw-error.show{display:block}
+.pw-err{font-size:0.68rem;color:#c44;margin-top:0.5rem;display:none}
+.pw-err.show{display:block}
 
-@media(max-width:900px){.article-grid{grid-template-columns:repeat(2,1fr)}.now-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.article-grid{grid-template-columns:1fr}.now-grid{grid-template-columns:1fr}header,main,footer{padding-left:1.25rem;padding-right:1.25rem}}
+@media(max-width:960px){.article-grid{grid-template-columns:repeat(2,1fr)}.now-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.article-grid{grid-template-columns:1fr}.now-grid{grid-template-columns:1fr}header,main,footer{padding-left:1.25rem;padding-right:1.25rem}.nav-tagline{display:none}}
 </style>
 </head>
 <body>
 
+<!-- ── HEADER ── -->
 <header>
   <div class="nav-inner">
     <div style="display:flex;align-items:center">
-      <span class="logo" id="logoEl">sincere.</span>
+      <div class="logo-group" id="logoEl">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" stroke="#B8963E" stroke-width="1"/>
+          <rect x="9" y="1" width="6" height="6" stroke="#7A8088" stroke-width="0.5"/>
+          <rect x="1" y="9" width="6" height="6" stroke="#7A8088" stroke-width="0.5"/>
+          <rect x="9" y="9" width="6" height="6" stroke="#3A3D42" stroke-width="1"/>
+        </svg>
+        <span class="logo">sincere.</span>
+      </div>
+      <span class="nav-tagline">觀察者的筆記</span>
       <span class="edit-badge">編輯模式</span>
-      <button class="exit-edit-btn" onclick="exitEdit()">結束編輯</button>
-    </div>
-    <div style="display:flex;align-items:baseline;gap:1rem;margin-left:auto;margin-right:2rem">
-      <span style="font-size:0.62rem;letter-spacing:0.18em;color:var(--light)">觀察者的筆記</span>
+      <button class="exit-btn" onclick="exitEdit()">結束編輯</button>
     </div>
     <nav>
-      <a href="#">文章</a><a href="#">現在</a><a href="#">作品</a><a href="#" target="_blank">Threads ↗</a>
+      <a href="#">文章</a>
+      <a href="#">現在</a>
+      <a href="#">作品</a>
+      <a href="#" class="nav-cta" target="_blank">Threads ↗</a>
     </nav>
   </div>
 </header>
 
+<!-- ── MAIN ── -->
 <main>
-  <div style="padding:2rem 0 0;display:flex;justify-content:space-between">
-    <p style="font-size:0.65rem;letter-spacing:0.18em;color:var(--light)">觀察者的筆記</p>
-    <p style="font-size:0.65rem;color:var(--light);font-family:var(--serif);font-style:italic">sincere.tw</p>
+
+  <div class="page-meta">
+    <div class="meta-line">
+      <div class="meta-dash"></div>
+      <span class="meta-label">OBSERVER'S NOTES</span>
+    </div>
+    <span class="meta-url">sincere.tw</span>
   </div>
 
-  <div class="section-header">
-    <span class="section-title">最新文章</span>
-    <span class="section-en">Latest</span>
+  <!-- LATEST -->
+  <div class="sec-header">
+    <div class="sec-left">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <line x1="0" y1="2" x2="14" y2="2" stroke="#B8963E" stroke-width="1"/>
+        <line x1="0" y1="7" x2="10" y2="7" stroke="#7A8088" stroke-width="0.5"/>
+        <line x1="0" y1="12" x2="12" y2="12" stroke="#7A8088" stroke-width="0.5"/>
+      </svg>
+      <span class="sec-title">最新文章</span>
+    </div>
+    <span class="sec-en">Latest</span>
   </div>
 
   <div class="article-grid">
 
-    <div class="card">
+    <div class="card accent">
       <div class="card-meta"><span class="card-cat">玄學 · 思考</span><span class="card-date">2026.04</span></div>
-      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">∞</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editAction(()=>openImg(this))">
+        <img src="" alt="">
+        <svg width="36" height="22" viewBox="0 0 36 22" fill="none">
+          <path d="M11 11 C11 7 7 4.5 4.5 4.5 C1.5 4.5 0 7 0 11 C0 15 1.5 17.5 4.5 17.5 C7 17.5 11 15 11 11Z" stroke="#B8963E" stroke-width="1" fill="none"/>
+          <path d="M25 11 C25 7 29 4.5 31.5 4.5 C34.5 4.5 36 7 36 11 C36 15 34.5 17.5 31.5 17.5 C29 17.5 25 15 25 11Z" stroke="#B8963E" stroke-width="1" fill="none"/>
+          <line x1="11" y1="11" x2="25" y2="11" stroke="#B8963E" stroke-width="0.5"/>
+        </svg>
+        <span class="img-hint">點擊更換圖片</span>
+      </div>
       <h2>玄學和科學，其實站在同一個地方</h2>
       <p class="card-desc">兩者都是人類試圖理解未知的方式。差別不在方法，在語言。</p>
-      <div class="card-chart" id="ca0"><p class="chart-label" id="cl0"></p><div class="chart-wrap"><canvas id="cv0"></canvas></div><button class="remove-chart-btn" onclick="removeChart(0)">× 移除圖表</button></div>
-      <button class="add-chart-btn" id="cb0" onclick="openChart(0)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+      <div class="card-chart" id="ca0"><p class="chart-label" id="cl0"></p><div class="chart-wrap"><canvas id="cv0"></canvas></div><button class="rm-chart-btn" onclick="removeChart(0)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb0" onclick="openChart(0)"><span style="font-size:0.85rem">+</span> 新增圖表</button>
     </div>
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">追星 · 文化</span><span class="card-date">2026.03</span></div>
-      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">♩</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editAction(()=>openImg(this))">
+        <img src="" alt="">
+        <svg width="26" height="28" viewBox="0 0 26 28" fill="none">
+          <rect x="2" y="5" width="22" height="20" stroke="#7A8088" stroke-width="0.5"/>
+          <line x1="7" y1="1" x2="7" y2="7" stroke="#B8963E" stroke-width="1"/>
+          <line x1="19" y1="1" x2="19" y2="7" stroke="#B8963E" stroke-width="1"/>
+          <line x1="2" y1="13" x2="24" y2="13" stroke="#7A8088" stroke-width="0.5"/>
+        </svg>
+        <span class="img-hint">點擊更換圖片</span>
+      </div>
       <h2>K-pop消費為什麼被污名化</h2>
       <p class="card-desc">打高爾夫一年花多少錢，沒人問。買專輯就不一樣了。</p>
-      <div class="card-chart" id="ca1"><p class="chart-label" id="cl1"></p><div class="chart-wrap"><canvas id="cv1"></canvas></div><button class="remove-chart-btn" onclick="removeChart(1)">× 移除圖表</button></div>
-      <button class="add-chart-btn" id="cb1" onclick="openChart(1)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+      <div class="card-chart" id="ca1"><p class="chart-label" id="cl1"></p><div class="chart-wrap"><canvas id="cv1"></canvas></div><button class="rm-chart-btn" onclick="removeChart(1)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb1" onclick="openChart(1)"><span style="font-size:0.85rem">+</span> 新增圖表</button>
     </div>
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">AI · 工具</span><span class="card-date">2026.04</span></div>
-      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">◇</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editAction(()=>openImg(this))">
+        <img src="" alt="">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="4" y="4" width="9" height="9" stroke="#3A3D42" stroke-width="1"/>
+          <rect x="15" y="4" width="9" height="9" stroke="#7A8088" stroke-width="0.5"/>
+          <rect x="4" y="15" width="9" height="9" stroke="#7A8088" stroke-width="0.5"/>
+          <rect x="15" y="15" width="9" height="9" stroke="#B8963E" stroke-width="1"/>
+        </svg>
+        <span class="img-hint">點擊更換圖片</span>
+      </div>
       <h2>我用 AI 建了這個網站的過程</h2>
       <p class="card-desc">不是教學。是一個不懂程式的人，怎麼把想法變成頁面。</p>
-      <div class="card-chart" id="ca2"><p class="chart-label" id="cl2"></p><div class="chart-wrap"><canvas id="cv2"></canvas></div><button class="remove-chart-btn" onclick="removeChart(2)">× 移除圖表</button></div>
-      <button class="add-chart-btn" id="cb2" onclick="openChart(2)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+      <div class="card-chart" id="ca2"><p class="chart-label" id="cl2"></p><div class="chart-wrap"><canvas id="cv2"></canvas></div><button class="rm-chart-btn" onclick="removeChart(2)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb2" onclick="openChart(2)"><span style="font-size:0.85rem">+</span> 新增圖表</button>
     </div>
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">城市 · 旅行</span><span class="card-date">2026.03</span></div>
-      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">○</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editAction(()=>openImg(this))">
+        <img src="" alt="">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <polygon points="14,4 26,23 2,23" stroke="#7A8088" stroke-width="0.5" fill="none"/>
+          <circle cx="14" cy="15" r="4" stroke="#B8963E" stroke-width="1" fill="none"/>
+        </svg>
+        <span class="img-hint">點擊更換圖片</span>
+      </div>
       <h2>一個城市的高級感，是怎麼建立的</h2>
       <p class="card-desc">不是錢，是密度。是選擇放什麼、不放什麼。</p>
-      <div class="card-chart" id="ca3"><p class="chart-label" id="cl3"></p><div class="chart-wrap"><canvas id="cv3"></canvas></div><button class="remove-chart-btn" onclick="removeChart(3)">× 移除圖表</button></div>
-      <button class="add-chart-btn" id="cb3" onclick="openChart(3)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+      <div class="card-chart" id="ca3"><p class="chart-label" id="cl3"></p><div class="chart-wrap"><canvas id="cv3"></canvas></div><button class="rm-chart-btn" onclick="removeChart(3)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb3" onclick="openChart(3)"><span style="font-size:0.85rem">+</span> 新增圖表</button>
     </div>
 
     <div class="card">
       <div class="card-meta"><span class="card-cat">商業 · 觀察</span><span class="card-date">2026.02</span></div>
-      <div class="card-img" onclick="editModeAction(()=>openImg(this))"><img src="" alt=""><span class="img-placeholder">△</span><span class="img-hint">點擊更換圖片</span></div>
+      <div class="card-img" onclick="editAction(()=>openImg(this))">
+        <img src="" alt="">
+        <svg width="28" height="26" viewBox="0 0 28 26" fill="none">
+          <line x1="3" y1="22" x2="3" y2="6" stroke="#7A8088" stroke-width="0.5"/>
+          <line x1="3" y1="22" x2="25" y2="22" stroke="#7A8088" stroke-width="0.5"/>
+          <rect x="5" y="15" width="5" height="7" fill="#DDE0E4"/>
+          <rect x="12" y="11" width="5" height="11" fill="#B2B8BF"/>
+          <rect x="19" y="6" width="5" height="16" fill="#B8963E"/>
+        </svg>
+        <span class="img-hint">點擊更換圖片</span>
+      </div>
       <h2>為什麼有些品牌不需要解釋自己</h2>
       <p class="card-desc">信任感不是設計出來的，是長期一致性的副產品。</p>
-      <div class="card-chart" id="ca4"><p class="chart-label" id="cl4"></p><div class="chart-wrap"><canvas id="cv4"></canvas></div><button class="remove-chart-btn" onclick="removeChart(4)">× 移除圖表</button></div>
-      <button class="add-chart-btn" id="cb4" onclick="openChart(4)"><span style="font-size:0.9rem">+</span> 新增圖表</button>
+      <div class="card-chart" id="ca4"><p class="chart-label" id="cl4"></p><div class="chart-wrap"><canvas id="cv4"></canvas></div><button class="rm-chart-btn" onclick="removeChart(4)">× 移除圖表</button></div>
+      <button class="add-chart-btn" id="cb4" onclick="openChart(4)"><span style="font-size:0.85rem">+</span> 新增圖表</button>
     </div>
 
   </div>
 
-  <div class="section-header"><span class="section-title">現在在研究</span><span class="section-en">Now</span></div>
-  <div class="now-grid">
-    <div class="now-card"><span class="now-label">四柱命理</span><p class="now-title">節氣四柱理論</p><p class="now-sub">PIE 自研體系</p></div>
-    <div class="now-card"><span class="now-label">AI 應用</span><p class="now-title">AI 應用規劃師</p><p class="now-sub">2026.05 考試</p></div>
-    <div class="now-card"><span class="now-label">音樂</span><p class="now-title">Super Junior</p><p class="now-sub">2026 活動追蹤中</p></div>
-    <div class="now-card"><span class="now-label">創作</span><p class="now-title">AI Roleplay</p><p class="now-sub">角色創作 · PixAI</p></div>
+  <!-- NOW -->
+  <div class="sec-header">
+    <div class="sec-left">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="5.5" stroke="#B8963E" stroke-width="1" fill="none"/>
+        <circle cx="7" cy="7" r="1.5" fill="#B8963E"/>
+        <line x1="7" y1="1.5" x2="7" y2="5" stroke="#B8963E" stroke-width="1"/>
+        <line x1="7" y1="9" x2="9.5" y2="11" stroke="#7A8088" stroke-width="0.5"/>
+      </svg>
+      <span class="sec-title">現在在研究</span>
+    </div>
+    <span class="sec-en">Now</span>
   </div>
 
-  <div class="section-header"><span class="section-title">所有主題</span><span class="section-en">Topics</span></div>
-  <div class="topics">
-    <span class="topic-tag">玄學 · 哲學</span><span class="topic-tag">AI · 工具</span><span class="topic-tag">追星 · 文化</span>
-    <span class="topic-tag">城市 · 旅行</span><span class="topic-tag">生活美學</span><span class="topic-tag">商業 · 觀察</span>
+  <div class="now-grid">
+    <div class="now-card">
+      <div class="now-meta"><div class="now-dot gold"></div><span class="now-label">四柱命理</span></div>
+      <p class="now-title">節氣四柱理論</p><p class="now-sub">PIE 自研體系</p>
+    </div>
+    <div class="now-card">
+      <div class="now-meta"><div class="now-dot steel"></div><span class="now-label">AI 應用</span></div>
+      <p class="now-title">AI 應用規劃師</p><p class="now-sub">2026.05 考試</p>
+    </div>
+    <div class="now-card">
+      <div class="now-meta"><div class="now-dot gold"></div><span class="now-label">音樂</span></div>
+      <p class="now-title">Super Junior</p><p class="now-sub">2026 活動追蹤中</p>
+    </div>
+    <div class="now-card">
+      <div class="now-meta"><div class="now-dot steel"></div><span class="now-label">創作</span></div>
+      <p class="now-title">AI Roleplay</p><p class="now-sub">角色創作 · PixAI</p>
+    </div>
   </div>
+
+  <!-- TOPICS -->
+  <div class="sec-header">
+    <div class="sec-left">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <rect x="0.5" y="0.5" width="5.5" height="5.5" stroke="#B8963E" stroke-width="1" fill="none"/>
+        <rect x="8" y="0.5" width="5.5" height="5.5" stroke="#7A8088" stroke-width="0.5" fill="none"/>
+        <rect x="0.5" y="8" width="5.5" height="5.5" stroke="#7A8088" stroke-width="0.5" fill="none"/>
+        <rect x="8" y="8" width="5.5" height="5.5" stroke="#3A3D42" stroke-width="1" fill="none"/>
+      </svg>
+      <span class="sec-title">所有主題</span>
+    </div>
+    <span class="sec-en">Topics</span>
+  </div>
+
+  <div class="topics">
+    <span class="topic-tag">玄學 · 哲學</span>
+    <span class="topic-tag gold">AI · 工具</span>
+    <span class="topic-tag">追星 · 文化</span>
+    <span class="topic-tag">城市 · 旅行</span>
+    <span class="topic-tag">生活美學</span>
+    <span class="topic-tag">商業 · 觀察</span>
+  </div>
+
 </main>
 
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-inner">
-    <span class="footer-logo">sincere.</span>
-    <div class="footer-links"><a href="#">Threads ↗</a><a href="#">sincere.tw</a></div>
+    <div class="footer-logo">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <rect x="0.5" y="0.5" width="4.5" height="4.5" stroke="#B8963E" stroke-width="0.75"/>
+        <rect x="7" y="0.5" width="4.5" height="4.5" stroke="#7A8088" stroke-width="0.5"/>
+        <rect x="0.5" y="7" width="4.5" height="4.5" stroke="#7A8088" stroke-width="0.5"/>
+        <rect x="7" y="7" width="4.5" height="4.5" stroke="#3A3D42" stroke-width="0.75"/>
+      </svg>
+      <span class="footer-name">sincere. © 2026</span>
+    </div>
+    <div class="footer-links">
+      <a href="#" target="_blank">Threads ↗</a>
+      <a href="#">sincere.tw</a>
+    </div>
   </div>
 </footer>
 
-<!-- PASSWORD MODAL -->
+<!-- ── PASSWORD MODAL ── -->
 <div class="overlay" id="pwModal">
-  <div class="modal" style="width:340px">
+  <div class="modal" style="width:320px">
     <h3>進入編輯模式</h3>
     <div class="field">
       <label>密碼</label>
       <input type="password" id="pwInput" placeholder="輸入密碼" onkeydown="if(event.key==='Enter')confirmPw()">
-      <p class="pw-error" id="pwError">密碼錯誤，請再試一次</p>
+      <p class="pw-err" id="pwErr">密碼錯誤，請再試一次</p>
     </div>
     <div class="actions">
       <button class="btn" onclick="closePw()">取消</button>
@@ -230,12 +390,12 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
   </div>
 </div>
 
-<!-- IMAGE MODAL -->
+<!-- ── IMAGE MODAL ── -->
 <div class="overlay" id="imgModal">
   <div class="modal">
     <h3>更換圖片</h3>
     <div class="field"><label>上傳照片</label><input type="file" accept="image/*" id="imgFile" onchange="handleFile(event)"></div>
-    <div class="or-divider">— 或 —</div>
+    <div class="or-div">— 或 —</div>
     <div class="field"><label>圖片網址</label><input type="text" id="imgUrl" placeholder="https://..."></div>
     <div class="actions">
       <button class="btn btn-del" onclick="clearImg()">移除圖片</button>
@@ -245,7 +405,7 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
   </div>
 </div>
 
-<!-- CHART MODAL -->
+<!-- ── CHART MODAL ── -->
 <div class="overlay" id="chartModal">
   <div class="modal">
     <h3>新增圖表</h3>
@@ -277,46 +437,43 @@ footer{border-top:1px solid var(--border);padding:1.25rem 2.5rem}
 </div>
 
 <script>
-// ── 密碼設定（在這裡改你的密碼）──
-const EDIT_PASSWORD = 'sincere2026';
+// ── 密碼（可自行修改）──
+const PW = 'sincere2026';
 
-// ── Edit mode ──
-const COLORS=['#2C2C2A','#888880','#C0BFB8','#6B6B63','#1A1A18','#E2E1DA'];
-let editMode=false, logoClickCount=0, logoTimer=null;
+// ── 圖表配色（金屬冷調）──
+const COLORS = ['#3A3D42','#7A8088','#B2B8BF','#B8963E','#DDE0E4','#0D0D0C'];
+
+let editMode=false, clickCount=0, clickTimer=null;
 let activeImg=null, pendingSrc=null, activeChart=null, cType='bar', charts={};
 
-// Triple-click logo → password modal
+// Triple-click logo
 document.getElementById('logoEl').addEventListener('click',()=>{
   if(editMode)return;
-  logoClickCount++;
-  clearTimeout(logoTimer);
-  logoTimer=setTimeout(()=>{logoClickCount=0},600);
-  if(logoClickCount>=3){logoClickCount=0;openPw()}
+  clickCount++;
+  clearTimeout(clickTimer);
+  clickTimer=setTimeout(()=>{clickCount=0},600);
+  if(clickCount>=3){clickCount=0;openPw()}
 });
 
+// Edit mode
 function openPw(){
   document.getElementById('pwInput').value='';
-  document.getElementById('pwError').classList.remove('show');
+  document.getElementById('pwErr').classList.remove('show');
   document.getElementById('pwModal').classList.add('open');
-  setTimeout(()=>document.getElementById('pwInput').focus(),100);
+  setTimeout(()=>document.getElementById('pwInput').focus(),80);
 }
 function closePw(){document.getElementById('pwModal').classList.remove('open')}
 function confirmPw(){
-  const val=document.getElementById('pwInput').value;
-  if(val===EDIT_PASSWORD){
-    document.getElementById('pwModal').classList.remove('open');
-    document.body.classList.add('edit-mode');
-    editMode=true;
+  if(document.getElementById('pwInput').value===PW){
+    closePw();document.body.classList.add('edit-mode');editMode=true;
   } else {
-    document.getElementById('pwError').classList.add('show');
+    document.getElementById('pwErr').classList.add('show');
     document.getElementById('pwInput').value='';
     document.getElementById('pwInput').focus();
   }
 }
 function exitEdit(){document.body.classList.remove('edit-mode');editMode=false}
-
-// Guard: only runs callback if in edit mode
-function editModeAction(fn){if(editMode)fn()}
+function editAction(fn){if(editMode)fn()}
 
 // ── IMAGE ──
 function openImg(el){
@@ -333,18 +490,20 @@ function handleFile(e){
 function confirmImg(){
   const url=document.getElementById('imgUrl').value.trim();
   const src=pendingSrc||url;if(!src){closeImg();return}
-  const img=activeImg.querySelector('img'),ph=activeImg.querySelector('.img-placeholder');
+  const img=activeImg.querySelector('img');
+  const svg=activeImg.querySelector('svg');
   img.src=src;img.style.display='block';
-  img.onerror=()=>{img.style.display='none';ph.style.display='block'};
-  ph.style.display='none';
-  activeImg.style.border='1px dashed transparent';
+  img.onerror=()=>{img.style.display='none';if(svg)svg.style.display='block'};
+  if(svg)svg.style.display='none';
   closeImg();
 }
 function clearImg(){
   if(!activeImg)return;
-  const img=activeImg.querySelector('img'),ph=activeImg.querySelector('.img-placeholder');
-  img.src='';img.style.display='none';ph.style.display='block';
-  activeImg.style.border='';closeImg();
+  const img=activeImg.querySelector('img');
+  const svg=activeImg.querySelector('svg');
+  img.src='';img.style.display='none';
+  if(svg)svg.style.display='block';
+  closeImg();
 }
 
 // ── CHART ──
@@ -365,8 +524,7 @@ function confirmChart(){
   if(!labels.length||!values.length){alert('請填入標籤和數值');return}
   if(labels.length!==values.length){alert('標籤和數值行數需相同');return}
   if(charts[i]){charts[i].destroy();delete charts[i]}
-  const wrap=document.querySelector('#ca'+i+' .chart-wrap');
-  wrap.innerHTML='<canvas id="cv'+i+'"></canvas>';
+  document.querySelector('#ca'+i+' .chart-wrap').innerHTML='<canvas id="cv'+i+'"></canvas>';
   const isPie=cType==='pie'||cType==='doughnut';
   document.getElementById('cl'+i).textContent=title;
   document.getElementById('ca'+i).classList.add('active');
@@ -378,11 +536,11 @@ function confirmChart(){
       borderColor:isPie?'#fff':COLORS[0],borderWidth:isPie?2:1,
       borderRadius:cType==='bar'?2:0}]},
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:isPie,position:'bottom',labels:{font:{size:9},padding:6,boxWidth:8}},
+      plugins:{legend:{display:isPie,position:'bottom',labels:{font:{size:9,family:'Noto Sans TC'},padding:6,boxWidth:8}},
         tooltip:{callbacks:{label:c=>' '+Number(c.raw).toLocaleString()}}},
       scales:isPie?{}:{
-        x:{grid:{display:false},ticks:{font:{size:8},color:'#C0BFB8'}},
-        y:{grid:{color:'#F4F3EE'},ticks:{font:{size:8},color:'#C0BFB8'}}
+        x:{grid:{display:false},ticks:{font:{size:8},color:'#B2B8BF'}},
+        y:{grid:{color:'#F0F1F2'},ticks:{font:{size:8},color:'#B2B8BF'}}
       }}
   });
   closeChart();
@@ -395,10 +553,14 @@ function removeChart(i){
   document.querySelector('#ca'+i+' .chart-wrap').innerHTML='<canvas id="cv'+i+'"></canvas>';
 }
 
-// close on backdrop
-document.getElementById('pwModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePw()});
-document.getElementById('imgModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeImg()});
-document.getElementById('chartModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeChart()});
+// backdrop close
+['pwModal','imgModal','chartModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{
+    if(e.target===e.currentTarget)document.getElementById(id).classList.remove('open');
+    if(id==='imgModal'){activeImg=null;pendingSrc=null}
+    if(id==='chartModal')activeChart=null;
+  });
+});
 </script>
 </body>
 </html>
