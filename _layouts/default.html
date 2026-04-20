@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if page.title %}{{ page.title }} — {% endif %}sincere.</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="{{ '/' | relative_url }}" class="logo-group">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" stroke="#B8963E" stroke-width="1"/>
+          <rect x="9" y="1" width="6" height="6" stroke="#7A8088" stroke-width="0.5"/>
+          <rect x="1" y="9" width="6" height="6" stroke="#7A8088" stroke-width="0.5"/>
+          <rect x="9" y="9" width="6" height="6" stroke="#3A3D42" stroke-width="1"/>
+        </svg>
+        <span class="logo">sincere.</span>
+      </a>
+      <span class="nav-tagline">觀察者的筆記</span>
+    </div>
+    <nav>
+      <a href="{{ '/' | relative_url }}">文章</a>
+      <a href="{{ '/now' | relative_url }}">現在</a>
+      <a href="{{ '/works' | relative_url }}">作品</a>
+      <a href="https://www.threads.com/@priya.tw_elf" class="nav-cta" target="_blank">Threads ↗</a>
+    </nav>
+  </div>
+</header>
+
+{{ content }}
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <rect x="0.5" y="0.5" width="4.5" height="4.5" stroke="#B8963E" stroke-width="0.75"/>
+        <rect x="7" y="0.5" width="4.5" height="4.5" stroke="#7A8088" stroke-width="0.5"/>
+        <rect x="0.5" y="7" width="4.5" height="4.5" stroke="#7A8088" stroke-width="0.5"/>
+        <rect x="7" y="7" width="4.5" height="4.5" stroke="#3A3D42" stroke-width="0.75"/>
+      </svg>
+      <span class="footer-name">sincere. © 2026</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.threads.com/@priya.tw_elf" target="_blank">Threads ↗</a>
+      <a href="{{ '/' | relative_url }}">sincere.tw</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
