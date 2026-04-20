@@ -3,7 +3,7 @@ layout: post
 title: 四季節氣四柱
 category: 玄學 · 思考
 date: 2026-04-20
-post: 1
+post: 6
 tags: [四柱, 節氣, Pie, 天機試煉場, 命理]
 cover: /sincere/images/pie-bazi.jpg
 ---
