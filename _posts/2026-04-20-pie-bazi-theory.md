@@ -3,9 +3,9 @@ layout: post
 title: 四季節氣四柱
 category: 玄學 · 思考
 date: 2026-04-20
-系列文章: 1
+post: 1
 tags: [四柱, 節氣, Pie, 天機試煉場, 命理]
-cover:/sincere/images/pie-bazi.jpg
+cover: /sincere/images/pie-bazi.jpg
 ---
 
 因為童童的關係，我開始看天機試煉場。節目裡有很多很棒的參賽者，但有把握住這一波風潮開始經營脆的就是用節氣在論四柱的派。
