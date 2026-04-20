@@ -1,0 +1,10 @@
+title: sincere.
+description: 觀察者的筆記
+baseurl: "/sincere"
+url: "https://priyabelovedc.github.io"
+
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
+plugins:
+  - jekyll-feed
