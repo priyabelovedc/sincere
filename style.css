@@ -193,6 +193,64 @@ body.edit-mode .rm-chart-btn { display: block; }
 .add-chart-btn:hover { color: var(--gold); }
 body.edit-mode .add-chart-btn { display: flex; }
 
+/* ── EMBEDS ── */
+
+/* YouTube / 影片嵌入 */
+.embed-video {
+  position: relative;
+  aspect-ratio: 16/9;
+  margin: 1.5rem 0;
+  border: 0.5px solid var(--border);
+  background: var(--card-bg);
+}
+.embed-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.embed-caption {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--mist);
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Spotify 嵌入 */
+.embed-spotify {
+  margin: 1.5rem 0;
+  border: 0.5px solid var(--border);
+  background: var(--card-bg);
+}
+.embed-spotify iframe {
+  display: block;
+  width: 100%;
+  border: none;
+}
+
+/* 通用嵌入標題列 */
+.embed-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 0.5px solid var(--border);
+  background: var(--surface);
+}
+.embed-type {
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  color: var(--mist);
+}
+.embed-dot {
+  width: 3px;
+  height: 3px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 960px) {
   .article-grid { grid-template-columns: repeat(2, 1fr); }
