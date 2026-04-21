@@ -3,9 +3,18 @@ layout: post
 title: 四季節氣四柱
 category: 玄學 · 思考
 date: 2026-04-20
-post: 6
+read_time: 6
 tags: [四柱, 節氣, Pie, 天機試煉場, 命理]
 cover: /images/pie-bazi2.jpg
+charts:
+  - type: bar
+    title: 富貴命格的兩種策略
+    labels: [先插旗佔位, 持續修正優化, 順勢借力, 等待時機]
+    values: [95, 88, 60, 45]
+  - type: doughnut
+    title: 命盤五行分布示意
+    labels: [木, 火, 土, 金, 水]
+    values: [25, 15, 20, 30, 10]
 ---
 
 因為童童的關係，我開始看天機試煉場。節目裡有很多很棒的參賽者，但有把握住這一波風潮開始經營脆的就是用節氣在論四柱的派。
